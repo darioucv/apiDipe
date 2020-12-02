@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryDisease extends Model
+class List_cause_by_disease extends Model
 {
-    /* protected $table="category_diseases";
-    protected $primaryKey = 'category_disease_id'; */
+    protected $table="list_cause_by_diseases";
 
-    public function diseases(){
+    /* public function causesDiseases(){
         return $this->hasMany(Disease::class);
-    }
-
+    } */
 }

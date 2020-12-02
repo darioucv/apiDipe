@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('diseases', 'DiseaseController', ['except' => ['create', 'edit']]);
+Route::resource('diseases', 'DiseaseController');
 
 //Route::get('projects', [ProjectController::class, 'getAllProjects']); ////para hacer uso de funciones dentro del controller
 

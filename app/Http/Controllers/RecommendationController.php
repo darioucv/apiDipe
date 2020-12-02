@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CategoryDisease;
+use App\Models\Recommendation;
 use Illuminate\Http\Request;
 use Validator;
-class CategoryDiseaseController extends Controller
+class RecommendationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class CategoryDiseaseController extends Controller
      */
     public function index()
     {
-        return response ()->json(CategoryDisease::get(),200);
-    }
+        return response ()->json(Recommendation::get(),200);
 
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -27,8 +27,7 @@ class CategoryDiseaseController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'category ' => 'required',
-            'description' => 'required',
+            'recommendation ' => 'required',
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -37,39 +36,35 @@ class CategoryDiseaseController extends Controller
             return response()->json($validator->errors(),400);
         }
 
-        $contenido = new CategoryDisease();
-        $contenido->category = $request->input ('category');
-        $contenido->description = $request->input ('description');
+        $contenido = new Recommendation();
+        $contenido->recommendation = $request->input ('recommendation');
         $contenido->save();
         echo json_encode($contenido);
     }
-
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CategoryDisease  $categoryDisease
+     * @param  \App\Models\Recommendation  $recommendation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $categoryDisease_id)
+    public function update(Request $request, $recommendation_id)
     {
-        $contenido = CategoryDisease::find($categoryDisease_id);
+        $contenido = Recommendation::find($recommendation_id);
         if(is_null($contenido)){
             return response()->json('id no válido',404);
         }
 
         $rules = [
-            'category ' => 'required',
-            'description' => 'required',
+            'recommendation ' => 'required',
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
         
-        $contenido->category = $request->input ('category');
-        $contenido->description = $request->input ('description');
+        $contenido->recommendation = $request->input ('recommendation');
         $contenido->save();
         echo json_encode($contenido);
     }
@@ -77,10 +72,10 @@ class CategoryDiseaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CategoryDisease  $categoryDisease
+     * @param  \App\Models\Recommendation  $recommendation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CategoryDisease $categoryDisease)
+    public function destroy(Recommendation $recommendation)
     {
         //
     }
