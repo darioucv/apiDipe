@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\DiseasesController; //para hacer uso de funciones dentro del controller
+//use App\Http\Controllers\DiseasesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('diseases', 'DiseaseController')->middleware('auth');
-
+//Route::resource('diseases', 'DiseaseController',['only' => ['index']]);
 //Route::get('projects', [ProjectController::class, 'getAllProjects']); ////para hacer uso de funciones dentro del controller
-
+//envio de datos
+Route::get('/diseases', 'DiseaseController@diseasesList');

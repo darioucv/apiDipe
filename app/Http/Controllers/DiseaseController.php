@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Disease;
+use App\Models\CategoryDisease;
 use Validator;
 class DiseaseController extends Controller
 {
@@ -13,16 +14,37 @@ class DiseaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
-        /* return response ()->json(Disease::chunk(
-            200, function ($projects) {
-                foreach ($projects as $project) {
-                    //Aquí escribimos lo que haremos con los datos (operar, modificar, etc)
-                }
-            }
-        ),200); */
+        
+        $diseases = Disease::latest()->get();
+
+        return view('diseases.index', compact('diseases'));
+    }
+
+    public function diseasesList(){
+
         return response ()->json(Disease::get(),200);
+            /* return response ()->json(Disease::chunk(
+                200, function ($projects) {
+                    foreach ($projects as $project) {
+                        //Aquí escribimos lo que haremos con los datos (operar, modificar, etc)
+                    }
+                }
+            ),200); */
+     }
+    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(CategoryDisease $categoryDisease)
+    {
+        return view('diseases.create',[
+            'categoryDiseases' => $categoryDisease::all()
+        ]);
     }
 
     /**
@@ -38,6 +60,7 @@ class DiseaseController extends Controller
             'concept' => 'required',
             'popurality' => 'numeric|required',
             'category_id' => 'numeric|required',
+            'image' => 'mimes:jpg,jpeg,png'
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -51,11 +74,17 @@ class DiseaseController extends Controller
         $contenido->concept = $request->input ('concept');
         $contenido->popurality = $request->input ('popurality');
         $contenido->category_id = $request->input ('category_id');
+        if($request->file('image')){
+            $contenido->image = $request->file('image')->store('diseases','public');
+        }   
         $contenido->save();
-        echo json_encode($contenido);
+
+        return back()->with('status', 'Creado con éxito');
     }
 
-
+    public function edit (Disease $disease){
+        return view('diseases.edit');
+    }
     /**
      * Update the specified resource in storage.
      *

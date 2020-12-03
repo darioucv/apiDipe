@@ -17,7 +17,7 @@ class CreateDiseasesTable extends Migration
             $table->increments('id');
             $table->string('disease',100);
             $table->string('concept',500);
-            $table->tinyInteger('popurality')->default('5');
+            $table->tinyInteger('popurality');
             $table->unsignedInteger('category_id');
             $table->string('image')->nullable();
             $table->foreign('category_id')->references('id')->on('category_diseases');

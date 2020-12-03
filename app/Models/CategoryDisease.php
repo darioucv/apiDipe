@@ -9,8 +9,9 @@ class CategoryDisease extends Model
 {
     /* protected $table="category_diseases";
     protected $primaryKey = 'category_disease_id'; */
-    protected $fillable = ['category','description'];
+    protected $fillable = ['category','description','image'];
 
+    //una categoria tiene varias enfermedades
     public function diseases(){
         return $this->hasMany(Disease::class);
     }

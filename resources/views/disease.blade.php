@@ -7,6 +7,9 @@
            
                 <div class="card mb-4">
                     <div class="card-body">
+                        @if ($disease->image)
+                            <img src="{{$disease->get_image}}" class="card-img-top">
+                        @endif
                         <h5 class="card-title">{{$disease->disease}}</h5>
                         <p class="card-text">
                             {{$disease->concept}} 

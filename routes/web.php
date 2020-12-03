@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Disease;
 use App\Http\Controllers\PageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +22,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('diseases', 'DiseaseController')->middleware('auth');
+Route::resource('diseases', 'DiseaseController')
+->middleware('auth')
+->except('show');
+
 Route::get('welcome', function () {
     return view('welcome');
 });
+
