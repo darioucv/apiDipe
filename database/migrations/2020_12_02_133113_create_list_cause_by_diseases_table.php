@@ -16,8 +16,8 @@ class CreateListCauseByDiseasesTable extends Migration
         Schema::create('list_cause_by_diseases', function (Blueprint $table) {
             $table->unsignedInteger('disease_id1');
             $table->unsignedInteger('cause_id');
-            $table->foreign('disease_id1')->references('disease_id')->on('diseases');
-            $table->foreign('cause_id')->references('cause_id')->on('causes');
+            $table->foreign('disease_id1')->references('id')->on('diseases');
+            $table->foreign('cause_id')->references('id')->on('causes');
             $table->timestamps();
         });
     }

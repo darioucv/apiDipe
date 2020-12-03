@@ -16,8 +16,8 @@ class CreateListRecommendationByDiseasesTable extends Migration
         Schema::create('list_recommendation_by_diseases', function (Blueprint $table) {
             $table->unsignedInteger('disease_id3');
             $table->unsignedInteger('recommendation_id');
-            $table->foreign('disease_id3')->references('disease_id')->on('diseases');
-            $table->foreign('recommendation_id')->references('recommendation_id')->on('recommendations');
+            $table->foreign('disease_id3')->references('id')->on('diseases');
+            $table->foreign('recommendation_id')->references('id')->on('recommendations');
             $table->timestamps();
         });
     }

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recommendation extends Model
 {
-    protected $table="recommendations";
-    protected $primaryKey = 'recommendation_id';
+    /* protected $table="recommendations";
+    protected $primaryKey = 'recommendation_id'; */
 }

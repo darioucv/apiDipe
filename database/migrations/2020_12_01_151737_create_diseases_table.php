@@ -14,12 +14,13 @@ class CreateDiseasesTable extends Migration
     public function up()
     {
         Schema::create('diseases', function (Blueprint $table) {
-            $table->increments('disease_id');
+            $table->increments('id');
             $table->string('disease',100);
-            $table->string('concept');
+            $table->string('concept',500);
             $table->tinyInteger('popurality')->default('5');
             $table->unsignedInteger('category_id');
-            $table->foreign('category_id')->references('category_disease_id')->on('category_diseases');
+            $table->string('image')->nullable();
+            $table->foreign('category_id')->references('id')->on('category_diseases');
             $table->timestamps();
         });
     }

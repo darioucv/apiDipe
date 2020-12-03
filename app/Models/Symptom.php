@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Symptom extends Model
 {
-    protected $table="symptoms";
-    protected $primaryKey = 'symptom_id';
+   /*  protected $table="symptoms";
+    protected $primaryKey = 'symptom_id'; */
 }

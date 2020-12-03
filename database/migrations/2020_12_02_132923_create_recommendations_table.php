@@ -14,8 +14,10 @@ class CreateRecommendationsTable extends Migration
     public function up()
     {
         Schema::create('recommendations', function (Blueprint $table) {
-            $table->increments('recommendation_id');
-            $table->string('recommendation');
+            $table->increments('id');
+            $table->string('recommendation',100);
+            $table->string('concept');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

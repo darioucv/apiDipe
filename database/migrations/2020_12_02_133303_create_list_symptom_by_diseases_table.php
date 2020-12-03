@@ -16,8 +16,8 @@ class CreateListSymptomByDiseasesTable extends Migration
         Schema::create('list_symptom_by_diseases', function (Blueprint $table) {
             $table->unsignedInteger('disease_id2');
             $table->unsignedInteger('symptom_id');
-            $table->foreign('disease_id2')->references('disease_id')->on('diseases');
-            $table->foreign('symptom_id')->references('symptom_id')->on('symptoms');
+            $table->foreign('disease_id2')->references('id')->on('diseases');
+            $table->foreign('symptom_id')->references('id')->on('symptoms');
             $table->timestamps();
         });
     }

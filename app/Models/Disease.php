@@ -9,7 +9,8 @@ class Disease extends Model
 {
     /* protected $table="diseases";
     protected $primaryKey = 'disease_id'; */
-    public function categoryDisease(){
+    protected $fillable = ['disease','concept','popurality','category_id '];
+    public function category(){
         return $this->belongsTo(CategoryDisease::class);
         /* return $this->belongsTo('App\Models\CategoryDisease'); */
     } 

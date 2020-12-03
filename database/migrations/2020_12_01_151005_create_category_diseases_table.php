@@ -14,9 +14,10 @@ class CreateCategoryDiseasesTable extends Migration
     public function up()
     {
         Schema::create('category_diseases', function (Blueprint $table) {
-            $table->increments('category_disease_id');
+            $table->increments('id');
             $table->string('category',50);
             $table->string('description');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
