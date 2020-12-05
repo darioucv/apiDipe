@@ -18,4 +18,18 @@ use Illuminate\Support\Facades\Route;
 //Route::resource('diseases', 'DiseaseController',['only' => ['index']]);
 //Route::get('projects', [ProjectController::class, 'getAllProjects']); ////para hacer uso de funciones dentro del controller
 //envio de datos
-Route::get('/diseases', 'DiseaseController@diseasesList');
+Route::get('diseases', 'DiseaseController@diseasesList');
+Route::get('causes', 'CauseController@CauseList');
+Route::get('categories', 'CategoryDiseaseController@CategoryDiseasesList');
+Route::get('recommendations', 'RecommendationController@RecommendationList');
+Route::get('symptoms', 'SymptomController@SymptomList');
+
+Route::resource('listCauseDisease','ListCauseByDiseaseController');
+Route::resource('listRecommendationDisease','ListRecommendationByDiseaseController');
+Route::resource('listSymptomDisease','ListSymptomByDiseaseController');
+
+
+
+Route::get('diseases/{fileName}','DiseaseController@returnImages');
+Route::get('categories/{fileName}','CategoryDiseaseController@returnImages');
+Route::get('recommendations/{fileName}','RecommendationController@returnImages');

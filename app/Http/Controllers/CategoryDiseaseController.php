@@ -25,6 +25,17 @@ class CategoryDiseaseController extends Controller
         return response ()->json(CategoryDisease::get(),200);
      }
 
+     public function returnImages($fileName){
+        
+        $path=public_path().'/image/'.$fileName;
+        if (@getimagesize($path)) {
+            return response()->download($path); 
+            }
+            else
+            {
+            return response()->json('archivo no válido',404);
+            }
+    }
      /**
      * Show the form for creating a new resource.
      *
@@ -102,11 +113,24 @@ class CategoryDiseaseController extends Controller
         
         $contenido->category = $request->input ('category');
         $contenido->description = $request->input ('description');
-        if($request->file('image')){
-            //eliminar imagen -- importar clase, look up
-            Storage::disk('public')->delete($contenido->image);
-            $contenido->image = $request->file('image')->store('categories','public');
-        } 
+        if($archivo=$request->file('image'))
+        { 
+            $fileName= $contenido->image;
+            $path=public_path().'/image/'.$fileName;
+            if (@getimagesize($path)) 
+            {
+                unlink($path);
+                $nombre = $archivo->getClientOriginalName();
+                $archivo->move('image',$nombre);
+                $contenido['image']=$nombre;
+            }
+            else
+            {
+                $nombre = $archivo->getClientOriginalName();
+                $archivo->move('image',$nombre);
+                $contenido['image']=$nombre;
+            }
+        }
         $contenido->save();
         
         return back()->with('status', 'Actualizado con éxito');

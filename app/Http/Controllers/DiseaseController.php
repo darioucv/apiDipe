@@ -84,7 +84,7 @@ class DiseaseController extends Controller
             $archivo->move('image',$nombre);
             $contenido['image']=$nombre;
 
-        }  
+        } 
         $contenido->save();
 
         return back()->with('status', 'Creado con éxito');
@@ -144,11 +144,24 @@ class DiseaseController extends Controller
         $contenido->concept = $request->input ('concept');
         $contenido->popularity = $request->input ('popularity');
         $contenido->category_id = $request->input ('category_id');
-        if($request->file('image')){
-            //eliminar imagen -- importar clase, look up
-            Storage::disk('public')->delete($contenido->image);
-            $contenido->image = $request->file('image')->store('diseases','public');
-        }  
+        if($archivo=$request->file('image'))
+        { 
+            $fileName= $contenido->image;
+            $path=public_path().'/image/'.$fileName;
+            if (@getimagesize($path)) 
+            {
+                unlink($path);
+                $nombre = $archivo->getClientOriginalName();
+                $archivo->move('image',$nombre);
+                $contenido['image']=$nombre;
+            }
+            else
+            {
+                $nombre = $archivo->getClientOriginalName();
+                $archivo->move('image',$nombre);
+                $contenido['image']=$nombre;
+            }
+        } 
         $contenido->save();
 
         return back()->with('status', 'Actualizado con éxito');

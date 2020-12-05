@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <select name="popularity">
                                 <optgroup label="Actual">
-                                    <option value="{{$disease->popurality}}" selected="true" >{{$disease->popurality}}</option>
+                                    <option value="{{$disease->popularity}}" selected="true" >{{$disease->popularity}}</option>
                                 </optgroup>
                                 <optgroup label="Elegir Nuevo">
                                     <option value="1">1</option>

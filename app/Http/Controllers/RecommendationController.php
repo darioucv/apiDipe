@@ -26,6 +26,18 @@ class RecommendationController extends Controller
 
     }
 
+    public function returnImages($fileName){
+        
+        $path=public_path().'/image/'.$fileName;
+        if (@getimagesize($path)) {
+            return response()->download($path); 
+            }
+            else
+            {
+            return response()->json('archivo no válido',404);
+            }
+    }
+
     public function create()
     {
         return view('recommendations.create');
@@ -53,8 +65,14 @@ class RecommendationController extends Controller
         $contenido = new Recommendation();
         $contenido->recommendation = $request->input ('recommendation');
         $contenido->concept = $request->input ('concept');
-        if($request->file('image')){
-            $contenido->image = $request->file('image')->store('recommendations','public');
+        if($archivo=$request->file('image'))
+        { 
+            $fileName= $contenido->image;
+            $path=public_path().'/image/'.$fileName;
+            $nombre = $archivo->getClientOriginalName();
+            $archivo->move('image',$nombre);
+            $contenido['image']=$nombre;
+
         }
         $contenido->save();
         return back()->with('status', 'Creado con éxito');
@@ -89,10 +107,23 @@ class RecommendationController extends Controller
         
         $contenido->recommendation = $request->input ('recommendation');
         $contenido->concept = $request->input ('concept');
-        if($request->file('image')){
-            //eliminar imagen -- importar clase, look up
-            Storage::disk('public')->delete($contenido->image);
-            $contenido->image = $request->file('image')->store('categories','public');
+        if($archivo=$request->file('image'))
+        { 
+            $fileName= $contenido->image;
+            $path=public_path().'/image/'.$fileName;
+            if (@getimagesize($path)) 
+            {
+                unlink($path);
+                $nombre = $archivo->getClientOriginalName();
+                $archivo->move('image',$nombre);
+                $contenido['image']=$nombre;
+            }
+            else
+            {
+                $nombre = $archivo->getClientOriginalName();
+                $archivo->move('image',$nombre);
+                $contenido['image']=$nombre;
+            }
         } 
         $contenido->save();
         return back()->with('status', 'Actualizado con éxito');
