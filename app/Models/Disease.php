@@ -13,11 +13,12 @@ class Disease extends Model
 
     
     //para que funcione esto implementamos el siguiente codigo: php artisan serve storage:link
-    public function getGetImageAttribute(){
+    /* public function getGetImageAttribute(){
         if($this->image){
-            return url("storage/$this->image");
+            
+            return url("../public/image/$this->image");
         }   
-    }
+    } */
     /* relaciones */
     //una enfermedad pertenece a una categoria 
     public function category(){

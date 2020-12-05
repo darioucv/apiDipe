@@ -26,6 +26,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('diseases', 'DiseaseController')
 ->middleware('auth')
 ->except('show');
+Route::get('diseasese/{fileName}','DiseaseController@returnImages');
 
 Route::resource('categories', 'CategoryDiseaseController')
 ->middleware('auth')

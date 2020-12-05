@@ -76,12 +76,30 @@ class DiseaseController extends Controller
         $contenido->concept = $request->input ('concept');
         $contenido->popularity = $request->input ('popularity');
         $contenido->category_id = $request->input ('category_id');
-        if($request->file('image')){
-            $contenido->image = $request->file('image')->store('diseases','public');
-        }   
+        if($archivo=$request->file('image'))
+        { 
+            $fileName= $contenido->image;
+            $path=public_path().'/image/'.$fileName;
+            $nombre = $archivo->getClientOriginalName();
+            $archivo->move('image',$nombre);
+            $contenido['image']=$nombre;
+
+        }  
         $contenido->save();
 
         return back()->with('status', 'Creado con éxito');
+    }
+
+    public function returnImages($fileName){
+        
+        $path=public_path().'/image/'.$fileName;
+        if (@getimagesize($path)) {
+            return response()->download($path); 
+            }
+            else
+            {
+            return response()->json('archivo no válido',404);
+            }
     }
 
     public function edit (Disease $disease,CategoryDisease $categoryDisease){

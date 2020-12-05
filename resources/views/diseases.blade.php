@@ -8,8 +8,8 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         @if ($disease->image)
-                            <img src="{{$disease->get_image}}" class="card-img-top">
                         @endif
+                            <img src="diseasese/{{$disease->image}}" class="card-img-top">
                         <h5 class="card-title">{{$disease->disease}}</h5>
                         <p class="card-text">
                             <a href="{{ route ('disease', $disease)}}">Leer m&aacute;s</a>

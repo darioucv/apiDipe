@@ -57,8 +57,17 @@ class CategoryDiseaseController extends Controller
         $contenido = new CategoryDisease();
         $contenido->category = $request->input ('category');
         $contenido->description = $request->input ('description');
-        if($request->file('image')){
+        /* if($request->file('image')){
             $contenido->image = $request->file('image')->store('categories','public');
+        } */
+        if($archivo=$request->file('image'))
+        { 
+            $fileName= $contenido->image;
+            $path=public_path().'/image/'.$fileName;
+            $nombre = $archivo->getClientOriginalName();
+            $archivo->move('image',$nombre);
+            $contenido['image']=$nombre;
+
         }
         $contenido->save();
         return back()->with('status', 'Creado con éxito');
