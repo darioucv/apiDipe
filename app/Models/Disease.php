@@ -9,7 +9,7 @@ class Disease extends Model
 {
     /* protected $table="diseases";
     protected $primaryKey = 'disease_id'; */
-    protected $fillable = ['disease','concept','popurality','category_id ','image'];
+    protected $fillable = ['disease','concept','popularity','category_id ','image'];
 
     
     //para que funcione esto implementamos el siguiente codigo: php artisan serve storage:link

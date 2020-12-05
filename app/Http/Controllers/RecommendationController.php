@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Recommendation;
 use Illuminate\Http\Request;
 use Validator;
+
+use Illuminate\Support\Facades\Storage;
 class RecommendationController extends Controller
 {
     /**
@@ -14,10 +16,20 @@ class RecommendationController extends Controller
      */
     public function index()
     {
+        $recommendations = Recommendation::latest()->get();
+
+        return view('recommendations.index', compact('recommendations'));
+
+    }
+    public function RecommendationList(){
         return response ()->json(Recommendation::get(),200);
 
     }
 
+    public function create()
+    {
+        return view('recommendations.create');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -27,7 +39,9 @@ class RecommendationController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'recommendation ' => 'required',
+            //'recommendation ' => 'required',
+            //'concept ' => 'required',
+            'image' => 'mimes:jpg,jpeg,png'
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -35,13 +49,20 @@ class RecommendationController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
-
+        
         $contenido = new Recommendation();
         $contenido->recommendation = $request->input ('recommendation');
+        $contenido->concept = $request->input ('concept');
+        if($request->file('image')){
+            $contenido->image = $request->file('image')->store('recommendations','public');
+        }
         $contenido->save();
-        echo json_encode($contenido);
+        return back()->with('status', 'Creado con éxito');
     }
 
+    public function edit (Recommendation $recommendation){
+        return view('recommendations.edit',compact('recommendation'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -57,7 +78,9 @@ class RecommendationController extends Controller
         }
 
         $rules = [
-            'recommendation ' => 'required',
+            //'recommendation ' => 'required',
+            //'concept ' => 'required',
+            'image' => 'mimes:jpg,jpeg,png'
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
@@ -65,8 +88,14 @@ class RecommendationController extends Controller
         }
         
         $contenido->recommendation = $request->input ('recommendation');
+        $contenido->concept = $request->input ('concept');
+        if($request->file('image')){
+            //eliminar imagen -- importar clase, look up
+            Storage::disk('public')->delete($contenido->image);
+            $contenido->image = $request->file('image')->store('categories','public');
+        } 
         $contenido->save();
-        echo json_encode($contenido);
+        return back()->with('status', 'Actualizado con éxito');
     }
 
     /**

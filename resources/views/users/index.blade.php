@@ -6,8 +6,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header"> 
-                    Diseases
-                    <a href="{{ route('diseases.create') }}"class="btn btn-sm btn-primary float-right" >Crear</a>
+                       Users
+                    <a href="{{ route('users.create') }}"class="btn btn-sm btn-primary float-right" >Crear</a>
 
                 </div>
 
@@ -22,18 +22,20 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Disease</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
                                 <th colspan=2 >&nbsp;</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach($diseases as $disease)
+                            @foreach($users as $user)
                                 <tr>
-                                    <td> {{$disease->id}} </td>
-                                    <td> {{$disease->disease}} </td>
+                                    <td> {{$user->id}} </td>
+                                    <td> {{$user->name}} </td>
+                                    <td> {{$user->email}} </td>
                                     <td>
-                                        <a href="{{route('diseases.edit',$disease)}}" class="  float-right btn btn-sm btn-primary">
+                                        <a href="{{route('users.edit',$user)}}" class="float-right btn btn-sm btn-primary">
                                             Editar
                                         </a>
                                     </td>

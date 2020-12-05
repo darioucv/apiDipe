@@ -52,18 +52,47 @@
                                     Diseases
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('symptoms.index') }}" class="nav-link">
+                                    Symptoms
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('causes.index') }}" class="nav-link">
+                                    Causes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('recommendations.index') }}" class="nav-link">
+                                    Recommendations
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('categories.index') }}" class="nav-link">
+                                    Disease Category
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/relations" class="nav-link">
+                                    Relations
+                                </a>
+                            </li>
+                            
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('users.index') }}">
+                                        Manage Accounts
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
+                                    
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

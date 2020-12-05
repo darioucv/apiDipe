@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\CategoryDisease;
 use Illuminate\Http\Request;
 use Validator;
+
+use Illuminate\Support\Facades\Storage;
 class CategoryDiseaseController extends Controller
 {
     /**
@@ -14,10 +16,24 @@ class CategoryDiseaseController extends Controller
      */
     public function index()
     {
-        return response ()->json(CategoryDisease::get(),200);
+        $categories = CategoryDisease::latest()->get();
+
+        return view('categories.index', compact('categories'));
     }
 
+    public function CategoryDiseasesList(){
+        return response ()->json(CategoryDisease::get(),200);
+     }
 
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('categories.create');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -27,8 +43,9 @@ class CategoryDiseaseController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'category ' => 'required',
             'description' => 'required',
+            //'category ' => 'required',
+            'image' => 'mimes:jpg,jpeg,png'
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -40,11 +57,16 @@ class CategoryDiseaseController extends Controller
         $contenido = new CategoryDisease();
         $contenido->category = $request->input ('category');
         $contenido->description = $request->input ('description');
+        if($request->file('image')){
+            $contenido->image = $request->file('image')->store('categories','public');
+        }
         $contenido->save();
-        echo json_encode($contenido);
+        return back()->with('status', 'Creado con éxito');
     }
 
-
+    public function edit (CategoryDisease $category){
+        return view('categories.edit',compact('category'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -60,8 +82,9 @@ class CategoryDiseaseController extends Controller
         }
 
         $rules = [
-            'category ' => 'required',
+            //'category ' => 'required',
             'description' => 'required',
+            'image' => 'mimes:jpg,jpeg,png'
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
@@ -70,8 +93,14 @@ class CategoryDiseaseController extends Controller
         
         $contenido->category = $request->input ('category');
         $contenido->description = $request->input ('description');
+        if($request->file('image')){
+            //eliminar imagen -- importar clase, look up
+            Storage::disk('public')->delete($contenido->image);
+            $contenido->image = $request->file('image')->store('categories','public');
+        } 
         $contenido->save();
-        echo json_encode($contenido);
+        
+        return back()->with('status', 'Actualizado con éxito');
     }
 
     /**

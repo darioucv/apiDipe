@@ -14,9 +14,20 @@ class SymptomController extends Controller
      */
     public function index()
     {
-        return response ()->json(Symptom::get(),200);
+        $symptoms = Symptom::latest()->get();
+
+        return view('symptoms.index', compact('symptoms'));
     }
 
+    public function SymptomList(){
+        return response ()->json(Symptom::get(),200);
+
+    }
+
+    public function create()
+    {
+        return view('symptoms.create');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -40,9 +51,12 @@ class SymptomController extends Controller
         $contenido->symptom = $request->input ('symptom');
         $contenido->description = $request->input ('description');
         $contenido->save();
-        echo json_encode($contenido);
+        return back()->with('status', 'Creado con éxito');
     }
 
+    public function edit (Symptom $symptom){
+        return view('symptoms.edit',compact('symptom'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -52,7 +66,7 @@ class SymptomController extends Controller
      */
     public function update(Request $request, $symptom_id)
     {
-        $contenido = Symptom::find($recommendation_id);
+        $contenido = Symptom::find($symptom_id);
         if(is_null($contenido)){
             return response()->json('id no válido',404);
         }
@@ -69,7 +83,7 @@ class SymptomController extends Controller
         $contenido->symptom = $request->input ('symptom');
         $contenido->description = $request->input ('description');
         $contenido->save();
-        echo json_encode($contenido);
+        return back()->with('status', 'Actualizado con éxito');
     }
 
     /**

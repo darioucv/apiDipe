@@ -15,7 +15,7 @@
                             {{$disease->concept}} 
                         </p>
                         <p class="card-text">
-                            Popurality: {{$disease->popurality}}
+                            Popurality: {{$disease->popularity}}
                         </p>
                         <p class="text-muted mb-0">
                             <em>

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Disease;
 use App\Models\CategoryDisease;
 use Validator;
+
+use Illuminate\Support\Facades\Storage;
 class DiseaseController extends Controller
 {
     /**
@@ -58,7 +60,7 @@ class DiseaseController extends Controller
         $rules = [
             'disease' => 'required',
             'concept' => 'required',
-            'popurality' => 'numeric|required',
+            'popularity' => 'numeric|required',
             'category_id' => 'numeric|required',
             'image' => 'mimes:jpg,jpeg,png'
         ];
@@ -72,7 +74,7 @@ class DiseaseController extends Controller
         $contenido = new Disease();
         $contenido->disease = $request->input ('disease');
         $contenido->concept = $request->input ('concept');
-        $contenido->popurality = $request->input ('popurality');
+        $contenido->popularity = $request->input ('popularity');
         $contenido->category_id = $request->input ('category_id');
         if($request->file('image')){
             $contenido->image = $request->file('image')->store('diseases','public');
@@ -82,8 +84,17 @@ class DiseaseController extends Controller
         return back()->with('status', 'Creado con éxito');
     }
 
-    public function edit (Disease $disease){
-        return view('diseases.edit');
+    public function edit (Disease $disease,CategoryDisease $categoryDisease){
+        /* return view('diseases.edit',compact('disease')); */
+
+        /* return view('diseases.edit',[
+            'categoryDiseases' => $categoryDisease::all()
+        ]); */
+        return view('diseases.edit',compact('disease'),[
+            'categoryDiseases' => $categoryDisease::all(),
+            'categoryDiseaseID' => $categoryDisease::find($disease->category_id)
+            
+        ]);
     }
     /**
      * Update the specified resource in storage.
@@ -102,8 +113,9 @@ class DiseaseController extends Controller
         $rules = [
             'disease' => 'required',
             'concept' => 'required',
-            'popurality' => 'numeric|required',
+            'popularity' => 'numeric|required',
             'category_id' => 'numeric|required',
+            'image' => 'mimes:jpg,jpeg,png'
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
@@ -112,10 +124,16 @@ class DiseaseController extends Controller
         
         $contenido->disease = $request->input ('disease');
         $contenido->concept = $request->input ('concept');
-        $contenido->popurality = $request->input ('popurality');
+        $contenido->popularity = $request->input ('popularity');
         $contenido->category_id = $request->input ('category_id');
+        if($request->file('image')){
+            //eliminar imagen -- importar clase, look up
+            Storage::disk('public')->delete($contenido->image);
+            $contenido->image = $request->file('image')->store('diseases','public');
+        }  
         $contenido->save();
-        echo json_encode($contenido);
+
+        return back()->with('status', 'Actualizado con éxito');
     }
 
     /**

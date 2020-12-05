@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 class UserController extends Controller
 {
     /**
@@ -14,7 +16,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response ()->json(User::get(),200);
+        //return response ()->json(User::get(),200);
+        $users = User::latest()->get();
+
+        return view('users.index', compact('users'));
+    }
+
+    public function create()
+    {
+        return view('users.create');
     }
 
     /**
@@ -27,7 +37,6 @@ class UserController extends Controller
     {
         $rules = [
             'name' => 'required',
-            'lastname' => 'required',
             'email' => 'required',
             'password' => 'required',
         ];
@@ -39,15 +48,19 @@ class UserController extends Controller
         }
 
         $contenido = new User();
-        $contenido->name = $request->input ('name');
-        $contenido->lastname = $request->input ('lastname');
-        $contenido->email = $request->input ('email');
-        $contenido->password = $request->input ('password');
+        $contenido->name = $request->input('name');
+        $contenido->email = $request->input('email');
+        $contenido->password = $request->input('password');
+        $contenido->fill([
+            'password' => Crypt::encrypt($contenido->password),
+        ]);
         $contenido->save();
-        echo json_encode($contenido);
+        return back()->with('status', 'Creado con éxito');
     }
 
-    
+    public function edit(User $user){
+        return view('users.edit',compact('user'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -55,9 +68,21 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request,$user_id)
     {
+        $contenido = User::find($user_id);
+        if(is_null($contenido)){
+            return response()->json('id no válido',404);
+        }
+        $contenido->name = $request->input('name');
+        $contenido->fill([
+            'password' => Crypt::encrypt($contenido->password),
+        ]);
+       /*  $contenido->password = $request->input('name');
+        echo json_encode($contenido); */
+        $contenido->save(); 
         
+        return back()->with('status', 'Actualizado con éxito'); 
     }
 
     /**
