@@ -50,7 +50,6 @@ class UserController extends Controller
         $contenido = new User();
         $contenido->name = $request->input('name');
         $contenido->email = $request->input('email');
-        $contenido->password = $request->input('password');
         $contenido->fill([
             'password' => Crypt::encrypt($contenido->password),
         ]);
@@ -75,11 +74,11 @@ class UserController extends Controller
             return response()->json('id no válido',404);
         }
         $contenido->name = $request->input('name');
-        $contenido->fill([
+        $contenido->password = $request->input('password');
+        /* $contenido->fill([
             'password' => Crypt::encrypt($contenido->password),
-        ]);
-       /*  $contenido->password = $request->input('name');
-        echo json_encode($contenido); */
+        ]); */
+        /* echo json_encode($contenido);  */
         $contenido->save(); 
         
         return back()->with('status', 'Actualizado con éxito'); 

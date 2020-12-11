@@ -28,14 +28,11 @@ class DiseaseController extends Controller
     public function diseasesList(){
 
         return response ()->json(Disease::get(),200);
-            /* return response ()->json(Disease::chunk(
-                200, function ($projects) {
-                    foreach ($projects as $project) {
-                        //Aquí escribimos lo que haremos con los datos (operar, modificar, etc)
-                    }
-                }
-            ),200); */
-     }
+        /* $listDiseases = Disease::get();
+        $listCategories = CategoryDisease::get();
+        $idDisease = $listDiseases['0']['id'];
+        echo $listDiseases.lengt(); */
+    }
     
     /**
      * Show the form for creating a new resource.
